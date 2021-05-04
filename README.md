@@ -19,7 +19,7 @@ Its easy to use and with many Features
 Now have fun with it Cheers 😉
 
 
-## Author 👤 **Psyro** and **Pineapple**
+## Author 👤 **Psyro**
 * Website: [Homepage](https://psyro.de/)  
 
 * GitHub: [@Psyro](https://github.com/psyro770)
