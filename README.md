@@ -3,7 +3,7 @@
 > This is a very simple Discord.py SelfBot
 Its easy to use and with many Features
 
-![](showcase.png)
+![](https://cdn.psyro.tech/WvmVGK.png)
 
 ## Prerequisites
 ``` Python >=3.7 - PiP >= 3.7```
