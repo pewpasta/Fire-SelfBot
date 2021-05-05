@@ -17,4 +17,4 @@ Its easy to use and with many Features
 
 * GitHub: [@Psyro](https://github.com/psyro770)
 
-## Show your support Give a ⭐️ if this project helped you!
+## Show your support Give a ⭐️ if you like this Project!
