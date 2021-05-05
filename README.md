@@ -5,21 +5,12 @@ Its easy to use and with many Features
 
 ![](https://cdn.psyro.tech/WvmVGK.png)
 
-## IMPORTANT
-> For the exe you need the .ddl file
-
 ## Prerequisites
 ``` Python >=3.7 - PiP >= 3.7```
 ## Install 
 ```pip install -r requirements.txt```
 ## Usage 
 ```py Fire.py ```
-
-
->Or use the Compiled Version you can easy decompile it because it isn't obfuscsted. Just py to exe not more.
-
-> Here you can see how to decompile a python exe [Klick Here](https://youtu.be/VGkMJTkZvyo)
-Now have fun with it Cheers 😉
 
 ## Author 👤 **Psyro**
 * Website: [Homepage](https://psyro.de/)  
