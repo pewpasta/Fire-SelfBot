@@ -5,6 +5,9 @@ Its easy to use and with many Features
 
 ![](https://cdn.psyro.tech/WvmVGK.png)
 
+##IMPORTANT
+> For the exe you need the .ddl file
+
 ## Prerequisites
 ``` Python >=3.7 - PiP >= 3.7```
 ## Install 
@@ -17,8 +20,6 @@ Its easy to use and with many Features
 
 > Here you can see how to decompile a python exe [Klick Here](https://youtu.be/VGkMJTkZvyo)
 Now have fun with it Cheers 😉
-
-> For the EXE you need the .ddl file idk why 
 
 ## Author 👤 **Psyro**
 * Website: [Homepage](https://psyro.de/)  
