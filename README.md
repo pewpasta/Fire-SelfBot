@@ -18,6 +18,7 @@ Its easy to use and with many Features
 > Here you can see how to decompile a python exe [Klick Here](https://youtu.be/VGkMJTkZvyo)
 Now have fun with it Cheers 😉
 
+> For the EXE you need the .ddl file idk why 
 
 ## Author 👤 **Psyro**
 * Website: [Homepage](https://psyro.de/)  
