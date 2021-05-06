@@ -11,6 +11,8 @@ Its easy to use and with many Features
 ```pip install -r requirements.txt```
 ## Usage 
 ```py Fire.py ```
+> Or use the exe file in the zip.
+> you can easily decompile it show [here](https://www.youtube.com/watch?v=VGkMJTkZvyo&t=5s)
 
 ## Author 👤 **Psyro**
 * Website: [Homepage](https://psyro.de/)  
