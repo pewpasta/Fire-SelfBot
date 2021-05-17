@@ -1,7 +1,8 @@
 <h1 align="center">Welcome to Fire SelfBot🔥</h1>
 
 > This is a very simple Discord.py SelfBot
-Its easy to use and with many Features
+Its easy to use and with many Features.
+The next way to support skids ;)
 
 ![](https://cdn.psyro.tech/WvmVGK.png)
 
