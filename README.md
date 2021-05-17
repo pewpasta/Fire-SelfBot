@@ -16,9 +16,10 @@ Its easy to use and with many Features
 
 Changelog: 
 ```toml
-New:
+New 17.06.21:
     [+] Version with AuthGG auth system
     [+] Theme creator
+    [-] Tokenlogin
 ```
 
 ## Author 👤 **Psyro**
