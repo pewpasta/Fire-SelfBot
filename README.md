@@ -19,7 +19,7 @@ Its easy to use and with many Features.
 
 Changelog: 
 ```toml
-New 17.06.21:
+Changelog 17.06.21:
     [+] Version with AuthGG auth system
     [+] Theme creator
     [-] Tokenlogin
