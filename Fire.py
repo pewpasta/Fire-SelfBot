@@ -69,6 +69,25 @@ def tokeninvalid():
        os.system("python3 Fire.py")
        os._exit(0)
 
+ftheme = '''{
+  "embed_title": "Fire SelfBot",
+  "global_emoji": ":Fire:",
+  "embed_color": "#e8bc38",
+  "embed_image": "https://imgur.com/a/PfzmlNF",
+  "embed_footer": "Fire SelfBot",
+  "embed_url": "https://psyro770.github.io/Fire-SelfBot/"
+}
+'''
+if not os.path.exists('themes'):
+    os.mkdir('themes')
+            
+if not os.path.exists('./themes/fire.json'):
+    with open("./themes/fire.json", "w") as f:
+        f.write(ftheme)
+    
+if os.path.exists('./themes/fire.json'):
+    with open("./themes/fire.json", "r") as jsonFile:
+        data = json.load(jsonFile)
 
 isthefilethere = os.path.isfile('config.json')
 if(isthefilethere == False):
@@ -583,87 +602,7 @@ async def nitrosniper(ctx, args):
             os.system("start Fire.exe")
             os._exit(0)
 
-@Fire.command()
-async def botlogin(ctx, _token): # b'\xfc'
-    await ctx.message.delete()
-    opts = webdriver.ChromeOptions()
-    opts.add_experimental_option("detach", True)
-    driver = webdriver.Chrome('chromedriver.exe', options=opts)
-    script = """
-    function login(token) {
-      ((i) => {
-        window.webpackJsonp.push([  
-          [i], {
-            [i]: (n, b, d) => {
-              let dispatcher;
-              for (let key in d.c) {
-                if (d.c[key].exports) {
-                  const module = d.c[key].exports.default || d.c[key].exports;
-                  if (typeof(module) === 'object') {
-                    if ('setToken' in module) {
-                      module.setToken(token);
-                      module.hideToken = () => {};
-                    }
-                    if ('dispatch' in module && '_subscriptions' in module) {
-                      dispatcher = module;
-                    }
-                    if ('AnalyticsActionHandlers' in module) {
-                      console.log('AnalyticsActionHandlers', module);
-                      module.AnalyticsActionHandlers.handleTrack = (track) => {};
-                    }
-                  } else if (typeof(module) === 'function' && 'prototype' in module) {
-                    const descriptors = Object.getOwnPropertyDescriptors(module.prototype);
-                    if ('_discoveryFailed' in descriptors) {
-                      const connect = module.prototype._connect;
-                      module.prototype._connect = function(url) {
-                        console.log('connect', url);
-                        const oldHandleIdentify = this.handleIdentify;
-                        this.handleIdentify = () => {
-                          const identifyData = oldHandleIdentify();
-                          identifyData.token = identifyData.token.split(' ').pop();
-                          return identifyData;
-                        };
-                        const oldHandleDispatch = this._handleDispatch;
-                        this._handleDispatch = function(data, type) {
-                          if (type === 'READY') {
-                            console.log(data);
-                            data.user.bot = false;
-                            data.user.email = 'Fire-Was-Here@Fuckyou.com';
-                            data.analytics_tokens = [];
-                            data.connected_accounts = [];
-                            data.consents = [];
-                            data.experiments = [];
-                            data.guild_experiments = [];
-                            data.relationships = [];
-                            data.user_guild_settings = [];
-                          }
-                          return oldHandleDispatch.call(this, data, type);
-                        }
-                        return connect.call(this, url);
-                      };
-                    }
-                  }
-                }
-              }
-              console.log(dispatcher);
-              if (dispatcher) {
-                dispatcher.dispatch({
-                  type: 'LOGIN_SUCCESS',
-                  token
-                });
-              }
-            },
-          },
-          [
-            [i],
-          ],
-        ]);
-      })(Math.random());
-    }
-    """ 
-    driver.get("https://discordapp.com/login")
-    driver.execute_script(script+f'\nlogin("Bot {_token}")')
-       
+    
 @Fire.command()
 async def fakedata(ctx, locale: str='en'):
     await ctx.message.delete()
