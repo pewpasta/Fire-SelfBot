@@ -14,6 +14,13 @@ Its easy to use and with many Features
 > Or use the exe file in the zip.
 > you can easily decompile it show [here](https://www.youtube.com/watch?v=VGkMJTkZvyo&t=5s)
 
+Changelog: 
+```toml
+New:
+    [+] Version with AuthGG auth system
+    [+] Theme creator
+```
+
 ## Author 👤 **Psyro**
 * Website: [Homepage](https://psyro.de/)  
 
