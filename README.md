@@ -19,10 +19,16 @@ Its easy to use and with many Features.
 
 Changelog: 
 ```toml
-Changelog 17.06.21:
+Changelog 17.05.21:
     [+] Version with AuthGG auth system
     [+] Theme creator
     [-] Tokenlogin
+```
+```toml
+Changelog 24.05.21:
+    [+] Bug fixes
+    [+] Meme rest api
+    [+] Toys meme  [for rest api]
 ```
 
 ## Author 👤 **Psyro**
