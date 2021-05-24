@@ -110,8 +110,7 @@ if(isthefilethere == False):
     'prefix': prefix,
     'token': token,
     'dcpassword': pass2,
-    'richpresence': rich,
-    'THEME': THEME,
+    'theme': theme,
     })
     with open('config.json', 'w+') as outfile:
         json.dump(data, outfile)
@@ -120,7 +119,7 @@ with open('./config.json', 'r') as cjson:
 prefix = config["prefix"]
 token = config["token"]
 dcpassword = config["dcpassword"]
-THEME = config["theme"]
+theme = config["theme"]
 client = commands.Bot(command_prefix = prefix, self_bot=True)
 client.remove_command('help')
 head = {"authorization":token, "user-agent":"Mozilla/5.0"}
@@ -132,14 +131,14 @@ if os.name == 'nt':
         ctypes.windll.kernel32.SetConsoleTitleW(f"Fire SelfBot | Logged in as {username['username']}")
     except:
         tokeninvalid()
-MSGDELETE = json.load(open(f"themes/{THEME}.json"))["msg_delete"]
-PUREEMBEDCOLOR = json.load(open(f"themes/{THEME}.json"))["embed_color"]
+MSGDELETE = json.load(open(f"themes/{theme}.json"))["msg_delete"]
+PUREEMBEDCOLOR = json.load(open(f"themes/{theme}.json"))["embed_color"]
 EMBEDCOLOR = int(PUREEMBEDCOLOR.replace("#", "0x"), 0)
-EMBEDIMAGE = json.load(open(f"themes/{THEME}.json"))["embed_image"]
-EMBEDTITLE = json.load(open(f"themes/{THEME}.json"))["embed_title"]
-GLOBALEMOJI = json.load(open(f"themes/{THEME}.json"))["global_emoji"]
-EMBEDFOOTER = json.load(open(f"themes/{THEME}.json"))["embed_footer"]
-EMBEDURL = json.load(open(f"themes/{THEME}.json"))["embed_url"]
+EMBEDIMAGE = json.load(open(f"themes/{theme}.json"))["embed_image"]
+EMBEDTITLE = json.load(open(f"themes/{theme}.json"))["embed_title"]
+GLOBALEMOJI = json.load(open(f"themes/{theme}.json"))["global_emoji"]
+EMBEDFOOTER = json.load(open(f"themes/{theme}.json"))["embed_footer"]
+EMBEDURL = json.load(open(f"themes/{theme}.json"))["embed_url"]
 
 
 
@@ -245,6 +244,24 @@ async def fakenitro(ctx, server):
     embed.add_field(name="GG poor boy aou won Nitro", value=f"[{nitro}]({server})")
     embed.set_image(url="https://cdn.discordapp.com/attachments/827008716263522314/830714076480798780/a9ng95vvs8c41.png")
     await ctx.send(embed=embed)
+
+@Fire.command(aliases=["tmeme"])
+async def toysmeme(ctx, word1=None, word2=None):
+    await ctx.message.delete()
+    if word1 is None or word2 is None:
+        await ctx.send("missing parameters")
+        return
+    endpoint = "https://xefox.tk/api/tmeme/?top_text={text-1}&bottom_text={text-2}".replace("{text-1}", word1).replace(
+        "{text-2}", word2)
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(endpoint) as resp:
+                image = await resp.read()
+        with IO.BytesIO(image) as file:
+            await ctx.send(file=discord.File(file, f"Fire_tmeme.png"))
+    except:
+        await ctx.send(endpoint)
+        print(Fore.MAGENTA + 'Command Used | TMeme')
 
 @Fire.command(aliases=["rick"])
 async def rickroll(ctx):
@@ -396,7 +413,7 @@ async def cathi(ctx, *, text: str = "Hi..."):
 async def cloneserver(ctx):
     await ctx.message.delete()
     guild = ctx.message.guild
-    newguild = await ggbitches.create_guild(ctx.message.guild.name)
+    newguild = await Fire.create_guild(ctx.message.guild.name)
     for channel in newguild.channels:
         await channel.delete()
     for emoji in guild.emojis:
