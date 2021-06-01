@@ -36,7 +36,7 @@ from discord.ext.commands import CommandNotFound
 import colorama
 from colorama import Fore, Style, Back
 import time
-
+import os
 
 
 colorama.init(autoreset=True)
@@ -62,11 +62,50 @@ m_numbers = [
     ":six:"
 ]
 
+version = b"<version>\n"
+#note that the version in "version" must be the same as on your webspace in version.txt
+r = requests.get("https://<yourdomain>/version.txt")
+
+newversion = r.content
+if newversion != version:
+    updatefile = os.path.isfile('<updaterexename>.exe')
+    if(updatefile == False):
+        print(f"{Fore.GREEN}[Update]{Fore.RESET} {Fore.MAGENTA} Downloading updater...")
+        open("./<updaterexename>.exe", "wb").write(requests.get("https://<yourdomain>/<updaterexename>.exe", allow_redirects=True).content)
+        os.system('"<updaterexename>.exe"')
+        time.sleep(3)
+
+newversion = r.content
+if newversion != version:
+    updatefile = os.path.isfile('<updaterexename>.exe')
+    if(updatefile == True):
+        print(f""" {Fore.MAGENTA}
+
+  
+                                                  ______________  ______
+                                                 / ____/  _/ __ \/ ____/
+                                                / /_   / // /_/ / __/   
+                                               / __/ _/ // _, _/ /___   
+                                              /_/   /___/_/ |_/_____/ 
+                                                                        
+                                                                    
+
+        """+Fore.RESET)
+        print(f"{Fore.GREEN}[Update]{Fore.RESET} {Fore.MAGENTA}New version avabile!")
+        os.system("start <updaterexename>.exe")
+        os.system("pause")
+        os._exit(0)
+
+def restart_bot():
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
 
 def tokeninvalid():
-   os.remove("config.json")
-   if os.name == "posix":
-       os.system("python3 Fire.py")
+    print(f"{Fore.RED}[ERROR]{Fore.RESET} {Fore.MAGENTA}Invalid Token Removing config.json after 10 seconds...{Fore.RESET}")
+    time.sleep(10)
+    os.remove("config.json")
+    if os.name == "posix":
+       os.system("start Fire.exe")
        os._exit(0)
 
 ftheme = '''{
@@ -152,9 +191,10 @@ print(f""" {Fore.YELLOW}
                                               /_/   /___/_/ |_/_____/ 
 
                                              Fire started sucesfully
-                                             Version 1.0 Release
+                                             Version 1.1 Release
                                              Discord User : {username['username']}
                                              Your Prefix is: {prefix}
+                                             Your theme is: {theme}
                                              Have Fun!
 
     """)
@@ -191,11 +231,24 @@ async def help(ctx):
     embed.add_field(name="", value="_ _", inline=True)
     embed.add_field(name=f"`{prefix}`**fun** » shows fun commands", value="_ _", inline=False)
     embed.add_field(name=f"`{prefix}` **mod** » shows moderation commands", value="_ _", inline=True)
+    embed.add_field(name=f"`{prefix}` **misc** » shows misc commands", value="_ _", inline=True)
     embed.add_field(name="Your Prefix is : ", value=f"{prefix}", inline=True)
     embed.set_footer(text=EMBEDFOOTER)
     await ctx.send(embed=embed, delete_after= 15)
     print(Fore.YELLOW + 'Command Used | help')
 
+@Fire.command()
+async def help(ctx):
+    await ctx.message.delete()
+    embed=discord.Embed(title=EMBEDTITLE, color=EMBEDCOLOR)
+    embed.set_thumbnail(url=EMBEDIMAGE)
+    embed.add_field(name="", value="_ _", inline=True)
+    embed.add_field(name=f"`{prefix}`**themelist** » shows all your themes", value="_ _", inline=False)
+    embed.add_field(name=f"`{prefix}` **settheme [theme]** » set a theme form your themelist", value="_ _", inline=True)
+    embed.add_field(name="Your Prefix is : ", value=f"{prefix}", inline=True)
+    embed.set_footer(text=EMBEDFOOTER)
+    await ctx.send(embed=embed, delete_after= 15)
+    print(Fore.YELLOW + 'Command Used | Misc')
 
 @Fire.command()
 async def fun(ctx):
@@ -235,15 +288,36 @@ async def Mod(ctx):
     await ctx.send(embed=embed, delete_after= 15)
     print(Fore.YELLOW + 'Command Used | Moderation')  
 
-@Fire.command()
-async def fakenitro(ctx, server):
+@Fire.command(aliases=["settheme", "theme"])
+async def changetheme(ctx, stheme):
     await ctx.message.delete()
-    code = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
-    nitro= f'https://discord.gift/{code}'
-    embed = discord.Embed(description="        ")
-    embed.add_field(name="GG poor boy aou won Nitro", value=f"[{nitro}]({server})")
-    embed.set_image(url="https://cdn.discordapp.com/attachments/827008716263522314/830714076480798780/a9ng95vvs8c41.png")
-    await ctx.send(embed=embed)
+    try:
+        config = json.load(open("config.json"))
+        config["theme"] = stheme
+        json.dump(config, open('config.json', 'w'), sort_keys=False, indent=4)
+        restart_bot()
+        os._exit(0)
+    except:
+        print("")
+
+
+themeList = ""
+for theme in os.listdir("themes"):
+    if theme.endswith(".json"):
+        theme = theme.replace(".json", "")
+        themeList += f"{theme}\n"
+
+@Fire.command(aliases=["themes"])
+async def themelist(ctx):
+    await ctx.message.delete()
+    embed=discord.Embed(title=GLOBALEMOJI + EMBEDTITLE + GLOBALEMOJI, color=EMBEDCOLOR)
+    embed.set_thumbnail(url=EMBEDIMAGE)
+    embed.add_field(name="Current Theme", value=theme, inline=False)
+    embed.add_field(name="Theme List", value=themeList, inline=False)
+    embed.add_field(name="Set theme", value=f"`{prefix}`**changetheme [theme]**", inline=False)
+    embed.set_footer(text=EMBEDFOOTER)
+    await ctx.send(embed=embed, delete_after= 15)
+    print(Fore.MAGENTA + 'Command Used | themes')
 
 @Fire.command(aliases=["tmeme"])
 async def toysmeme(ctx, word1=None, word2=None):
@@ -262,6 +336,16 @@ async def toysmeme(ctx, word1=None, word2=None):
     except:
         await ctx.send(endpoint)
         print(Fore.MAGENTA + 'Command Used | TMeme')
+
+@Fire.command()
+async def fakenitro(ctx, server):
+    await ctx.message.delete()
+    code = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
+    nitro= f'https://discord.gift/{code}'
+    embed = discord.Embed(description="        ")
+    embed.add_field(name="GG poor boy aou won Nitro", value=f"[{nitro}]({server})")
+    embed.set_image(url="https://cdn.discordapp.com/attachments/827008716263522314/830714076480798780/a9ng95vvs8c41.png")
+    await ctx.send(embed=embed)
 
 @Fire.command(aliases=["rick"])
 async def rickroll(ctx):
@@ -609,7 +693,7 @@ async def nitrosniper(ctx, args):
     if args == "off":
         embed = discord.Embed(description="", color=0x800000)
         embed.add_field(name="Nitrosniper", value="Disabled Nitro Sniper", inline=False)
-        embed.set_footer(text="Self Bot by Psyro & Kavakinght", icon_url="https://file.psyro.de/savefiles/20210309_193556.gif")
+        embed.set_footer(text="Fire", icon_url="https://file.psyro.de/savefiles/20210309_193556.gif")
         await ctx.channel.send(embed=embed)
         await ctx.message.delete()
         if os.name == 'posix':
@@ -619,7 +703,7 @@ async def nitrosniper(ctx, args):
             os.system("start Fire.exe")
             os._exit(0)
 
-    
+   
 @Fire.command()
 async def fakedata(ctx, locale: str='en'):
     await ctx.message.delete()

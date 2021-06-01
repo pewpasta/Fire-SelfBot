@@ -36,7 +36,10 @@ from discord.ext.commands import CommandNotFound
 import colorama
 from colorama import Fore, Style, Back
 import time
-
+import os
+from AuthGG.client import Client as AuthClient
+from AuthGG.logging import Logging as AuthLogging
+import json
 
 
 colorama.init(autoreset=True)
@@ -62,25 +65,59 @@ m_numbers = [
     ":six:"
 ]
 
+version = b"<version>\n"
+#note that the version in "version" must be the same as on your webspace in version.txt
+r = requests.get("https://<yourdomain>/version.txt")
+
+newversion = r.content
+if newversion != version:
+    updatefile = os.path.isfile('<updaterexename>.exe')
+    if(updatefile == False):
+        print(f"{Fore.GREEN}[Update]{Fore.RESET} {Fore.MAGENTA} Downloading updater...")
+        open("./<updaterexename>.exe", "wb").write(requests.get("https://<yourdomain>/<updaterexename>.exe", allow_redirects=True).content)
+        os.system('"<updaterexename>.exe"')
+        time.sleep(3)
+
+newversion = r.content
+if newversion != version:
+    updatefile = os.path.isfile('<updaterexename>.exe')
+    if(updatefile == True):
+        print(f""" {Fore.MAGENTA}
+
+  
+                                                  ______________  ______
+                                                 / ____/  _/ __ \/ ____/
+                                                / /_   / // /_/ / __/   
+                                               / __/ _/ // _, _/ /___   
+                                              /_/   /___/_/ |_/_____/ 
+                                                                        
+                                                                    
+
+        """+Fore.RESET)
+        print(f"{Fore.GREEN}[Update]{Fore.RESET} {Fore.MAGENTA}New version avabile!")
+        os.system("start <updaterexename>.exe")
+        os.system("pause")
+        os._exit(0)
+
+def restart_bot():
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
 
 def tokeninvalid():
-   os.remove("config.json")
-   if os.name == "posix":
-       os.system("python3 Fire.py")
+    print(f"{Fore.RED}[ERROR]{Fore.RESET} {Fore.MAGENTA}Invalid Token Removing config.json after 10 seconds...{Fore.RESET}")
+    time.sleep(10)
+    os.remove("config.json")
+    if os.name == "posix":
+       os.system("start Fire.exe")
        os._exit(0)
-
-import os
-from AuthGG.client import Client as AuthClient
-from AuthGG.logging import Logging as AuthLogging
-import json
 
 client = AuthClient(api_key="", aid="", application_secret="")
 #your secrets you can get from https://auth.gg/login
 
 if not os.path.exists("./auth.json"):
     print("[1]Login or [2]Register")
-    auswahl = input(" >> ")
-    if auswahl == "1":
+    change = input(" >> ")
+    if change == "1":
         username = input("Username >> ")
         password = input("Password >> ")
         try:
@@ -100,7 +137,7 @@ if not os.path.exists("./auth.json"):
             
 
 
-    if auswahl == "2":
+    if change == "2":
          print(f""" {Fore.MAGENTA}
 
   
@@ -267,11 +304,24 @@ async def help(ctx):
     embed.add_field(name="", value="_ _", inline=True)
     embed.add_field(name=f"`{prefix}`**fun** » shows fun commands", value="_ _", inline=False)
     embed.add_field(name=f"`{prefix}` **mod** » shows moderation commands", value="_ _", inline=True)
+    embed.add_field(name=f"`{prefix}` **misc** » shows misc commands", value="_ _", inline=True)
     embed.add_field(name="Your Prefix is : ", value=f"{prefix}", inline=True)
     embed.set_footer(text=EMBEDFOOTER)
     await ctx.send(embed=embed, delete_after= 15)
     print(Fore.YELLOW + 'Command Used | help')
 
+@Fire.command()
+async def help(ctx):
+    await ctx.message.delete()
+    embed=discord.Embed(title=EMBEDTITLE, color=EMBEDCOLOR)
+    embed.set_thumbnail(url=EMBEDIMAGE)
+    embed.add_field(name="", value="_ _", inline=True)
+    embed.add_field(name=f"`{prefix}`**themelist** » shows all your themes", value="_ _", inline=False)
+    embed.add_field(name=f"`{prefix}` **settheme [theme]** » set a theme form your themelist", value="_ _", inline=True)
+    embed.add_field(name="Your Prefix is : ", value=f"{prefix}", inline=True)
+    embed.set_footer(text=EMBEDFOOTER)
+    await ctx.send(embed=embed, delete_after= 15)
+    print(Fore.YELLOW + 'Command Used | Misc')
 
 @Fire.command()
 async def fun(ctx):
@@ -311,7 +361,36 @@ async def Mod(ctx):
     await ctx.send(embed=embed, delete_after= 15)
     print(Fore.YELLOW + 'Command Used | Moderation')  
 
+@Fire.command(aliases=["settheme", "theme"])
+async def changetheme(ctx, stheme):
+    await ctx.message.delete()
+    try:
+        config = json.load(open("config.json"))
+        config["theme"] = stheme
+        json.dump(config, open('config.json', 'w'), sort_keys=False, indent=4)
+        restart_bot()
+        os._exit(0)
+    except:
+        print("")
 
+
+themeList = ""
+for theme in os.listdir("themes"):
+    if theme.endswith(".json"):
+        theme = theme.replace(".json", "")
+        themeList += f"{theme}\n"
+
+@Fire.command(aliases=["themes"])
+async def themelist(ctx):
+    await ctx.message.delete()
+    embed=discord.Embed(title=GLOBALEMOJI + EMBEDTITLE + GLOBALEMOJI, color=EMBEDCOLOR)
+    embed.set_thumbnail(url=EMBEDIMAGE)
+    embed.add_field(name="Current Theme", value=theme, inline=False)
+    embed.add_field(name="Theme List", value=themeList, inline=False)
+    embed.add_field(name="Set theme", value=f"`{prefix}`**changetheme [theme]**", inline=False)
+    embed.set_footer(text=EMBEDFOOTER)
+    await ctx.send(embed=embed, delete_after= 15)
+    print(Fore.MAGENTA + 'Command Used | themes')
 
 @Fire.command(aliases=["tmeme"])
 async def toysmeme(ctx, word1=None, word2=None):
