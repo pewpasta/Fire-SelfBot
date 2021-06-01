@@ -9,7 +9,7 @@ Its easy to use and with many Features.
 
 
 ## Prerequisites
-``` Python >=3.7 - PiP >= 3.7```
+``` Python >=3.7 - pip >= 3.7```
 ## Install 
 ```pip install -r requirements.txt```
 ## Usage 
