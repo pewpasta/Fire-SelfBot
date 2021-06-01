@@ -30,6 +30,13 @@ Changelog 24.05.21:
     [+] Meme rest api
     [+] Toys meme  [for rest api]
 ```
+```toml
+Changelog 01.06.21:
+    [+] Bug fixes
+    [+] set thme command
+    [+] theme list command
+    [+] autoupdater
+```
 
 ## Author 👤 **Psyro**
 * Website: [Homepage](https://psyro.de/)  
