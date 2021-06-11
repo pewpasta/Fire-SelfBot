@@ -39,7 +39,7 @@ Changelog 01.06.21:
 ```
 ```toml
 Changelog 11.07.21:
-    [+] Bug fixes
+    [IMPORTANT] With this update i close this project!
     [+] Auth System APi by [EinTim](https://github.com/EinTim23)
     [+] Version with own auth
 ```
