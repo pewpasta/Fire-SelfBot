@@ -37,6 +37,12 @@ Changelog 01.06.21:
     [+] theme list command
     [+] autoupdater
 ```
+```toml
+Changelog 11.07.21:
+    [+] Bug fixes
+    [+] Auth System APi by [EinTim](https://github.com/EinTim23)
+    [+] Version with own auth
+```
 
 ## Author 👤 **Psyro**
 * Website: [Homepage](https://psyro.de/)  
